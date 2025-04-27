@@ -1,0 +1,141 @@
+<!-- registro.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro - Chicatana Country Club</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: rgba(44, 62, 80, 0.95);
+      padding: 20px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding-top: 30px;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .menu-btn {
+      background-color: #0b1a38;
+      color: white;
+      border: none;
+      width: 100%;
+      text-align: left;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+    }
+
+    .menu-btn:hover {
+      background-color: #1d2e4a;
+    }
+
+    .menu-btn i {
+      width: 20px;
+      text-align: center;
+    }
+
+    .contenido {
+      flex-grow: 1;
+      height: 100%;
+      background-image: url('FondoPagina.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .registro-form {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      border-radius: 10px;
+      color: white;
+      width: 300px;
+    }
+
+    .registro-form h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .registro-form input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .registro-form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #1d2e4a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .registro-form button:hover {
+      background-color: #0b1a38;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>MENU</h2>
+      <a href="Inicio_sin_sesion.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
+      <a href="login.html" class="menu-btn"><i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN</a>
+      <a href="registro.html" class="menu-btn"><i class="fas fa-user-plus"></i> REGISTRARSE</a>
+    </div>
+
+    <div class="contenido">
+      <form class="registro-form" action="login.html" method="post">
+        <h3>Crear Cuenta</h3>
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="text" name="usuario" placeholder="Usuario" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+        <input type="email" name="correo" placeholder="Correo" required>
+        <button type="submit">Registrarse</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
