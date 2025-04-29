@@ -127,14 +127,21 @@
     </div>
 
     <div class="contenido">
-      <form class="registro-form" action="login.html" method="post">
+      <form class="registro-form" action="registro.php" method="post">
         <h3>Crear Cuenta</h3>
         <input type="text" name="nombre" placeholder="Nombre" required>
         <input type="text" name="usuario" placeholder="Usuario" required>
         <input type="password" name="password" placeholder="Contraseña" required>
         <input type="email" name="correo" placeholder="Correo" required>
         <button type="submit">Registrarse</button>
-      </form>
+    </form>
+    <?php
+    // Mostrar errores si ocurren
+    if (isset($error)) {
+        echo '<p style="color: red; text-align: center;">' . $error . '</p>';
+    }
+    ?>
+
     </div>
   </div>
 </body>

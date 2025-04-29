@@ -1,4 +1,3 @@
-<!-- metodo_pago.html (con modal de "Pago Exitoso") -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -231,23 +230,20 @@
     </div>
 
     <div class="contenido">
-      <form class="pago-form" onsubmit="mostrarModal(event)">
+      <form class="pago-form" action="procesar_pago.php" method="POST">
         <h3>Método de Pago</h3>
         <input type="text" name="nombre" placeholder="Nombre del Titular" required>
         <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required>
         <input type="text" name="fecha_vencimiento" placeholder="Fecha de Vencimiento (MM/AA)" required>
         <input type="text" name="codigo_seguridad" placeholder="Código de Seguridad" required>
         <div class="payment-logos">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="American Express">
-          </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="American Express">
+        </div>
         <button type="submit">Pagar</button>
-
         <p>Cancela cuando quieras</p>
         <p>Se aplican <a href="terminos_y_condiciones.html">Términos y Condiciones</a></p>
-
-
       </form>
     </div>
   </div>
@@ -262,13 +258,18 @@
   </div>
 
   <script>
-    function mostrarModal(event) {
-      event.preventDefault(); // Evitar que se envíe el formulario
-      document.getElementById('modalPagoExitoso').style.display = 'flex';
-    }
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("exito") === "1") {
+        document.getElementById('modalPagoExitoso').style.display = 'flex';
+      }
+    };
 
     function cerrarModal() {
       document.getElementById('modalPagoExitoso').style.display = 'none';
+      const url = new URL(window.location);
+      url.searchParams.delete('exito');
+      window.history.replaceState({}, document.title, url);
     }
   </script>
 

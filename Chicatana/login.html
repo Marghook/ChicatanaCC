@@ -125,15 +125,22 @@
       <a href="login.html" class="menu-btn"><i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN</a>
       <a href="registro.html" class="menu-btn"><i class="fas fa-user-plus"></i> REGISTRARSE</a>
     </div>
-    
+
 
     <div class="contenido">
-      <form class="login-form" action="inicio.html" method="post">
+      <form class="login-form" action="login.php" method="post">
         <h3>Iniciar Sesión</h3>
         <input type="text" name="usuario" placeholder="Usuario" required>
         <input type="password" name="password" placeholder="Contraseña" required>
         <button type="submit">Entrar</button>
-      </form>
+    </form>
+    <?php
+    // Mostramos el error si ocurrió alguno
+    if (isset($error)) {
+        echo '<p style="color: red; text-align: center;">' . $error . '</p>';
+    }
+    ?>
+
     </div>
   </div>
 </body>
