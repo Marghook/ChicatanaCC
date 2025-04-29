@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generar Pagaré</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: rgba(44, 62, 80, 0.95);
+      padding: 20px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .menu-btn {
+      background-color: #0b1a38;
+      color: white;
+      border: none;
+      width: 100%;
+      text-align: left;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .menu-btn:hover {
+      background-color: #1d2e4a;
+    }
+
+    .menu-btn i {
+      width: 20px;
+      text-align: center;
+    }
+
+    .contenido {
+      flex-grow: 1;
+      height: 100%;
+      background-image: url('FondoPagina.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 40px;
+      color: white;
+      overflow-y: auto;
+      backdrop-filter: blur(4px);
+    }
+
+    .pagare-container {
+      background-color: #f5f5f5;
+      color: black;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .titulo-bloque {
+      background-color: #a88d8c;
+      color: white;
+      padding: 10px 20px;
+      width: 100px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .fila {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+    .campo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .campo input {
+      border: none;
+      border-bottom: 1px solid black;
+      background: transparent;
+      font-size: 16px;
+      padding: 4px;
+      width: 250px;
+    }
+    .campo input:focus {
+      outline: none;
+    }
+    .resaltado {
+      background-color: #a88d8c;
+      color: white;
+      font-weight: bold;
+      display: inline-block;
+      padding: 2px 6px;
+    }
+    .firma {
+      text-align: right;
+      margin-top: 40px;
+    }
+    .firma .subrayado {
+      border-bottom: 1px solid black;
+      display: inline-block;
+      min-width: 200px;
+    }
+    .btn-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .btn-container button {
+      background-color: #a88d8c;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+      }
+      .menu-btn {
+        flex: 1;
+        font-size: 12px;
+        justify-content: center;
+      }
+      .contenido {
+        padding: 20px;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>MENU</h2>
+      <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
+      <a href="informacion_socio.html" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
+      <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
+      <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
+      <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
+      <a href="generar_pagare.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> GENERAR PAGARÉ</a>
+      <a href="login.html" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
+    </div>
+
+    <div class="contenido">
+      <div class="pagare-container" id="pagare">
+        <div class="titulo-bloque">PAGARE</div>
+        <div class="fila">
+          <div class="campo">N:<input type="text" /></div>
+          <div class="campo">DE:<input type="text" /></div>
+        </div>
+        <div class="fila">
+          <div class="campo">LUGAR:<input type="text" /></div>
+          <div class="campo">FECHA:<input type="text" /></div>
+        </div>
+        <p>DEBO Y PAGARÉ INCONDICIONALMENTE ESTE PAGARÉ A LA ORDEN DE: <input type="text" /></p>
+        <div class="fila">
+          <div class="campo">EN LA FECHA:<input type="text" /></div>
+          <div class="campo">EN LA CANTIDAD DE:<input type="text" /></div>
+          <div class="campo">MONEDA: PESOS</div>
+        </div>
+        <div style="height: 40px; background-color: #a88d8c; margin: 20px 0;"></div>
+        <p>EN DADO CASO DE NO CUMPLIR CON EL PAGO EN LA FECHA ACORDADA, SE GENERARÁ UN INTERÉS POR DEMORA DEL 5%</p>
+        <p><span class="resaltado">DATOS DEL DEUDOR</span></p>
+        <div class="campo">NOMBRE:<input type="text" /></div>
+        <div class="campo">DIRECCIÓN:<input type="text" /></div>
+        <div class="campo">TELÉFONO:<input type="text" /></div>
+        <div class="firma">
+          <p>ACEPTO Y PAGARÉ A SU VENCIMIENTO</p>
+          <p class="subrayado">FIRMA</p>
+        </div>
+      </div>
+
+      <div class="btn-container">
+        <button onclick="guardarComoImagen()">Guardar como imagen</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    function guardarComoImagen() {
+      const element = document.getElementById("pagare");
+      html2canvas(element).then(function (canvas) {
+        const link = document.createElement("a");
+        link.download = "pagare.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
