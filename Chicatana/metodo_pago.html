@@ -250,9 +250,12 @@
       <form class="pago-form" onsubmit="mostrarModal(event)">
         <h3>Método de Pago</h3>
         <input type="text" name="nombre" placeholder="Nombre del Titular" required>
-        <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required>
-        <input type="date" name="fecha_vencimiento" placeholder="Fecha de Vencimiento (MM/AA)" required>
-        <input type="text" name="codigo_seguridad" placeholder="Código de Seguridad" required>
+        <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric">
+        <input type="text" name="fecha_vencimiento" placeholder="mm/aa" required maxlength="5"
+        pattern="(0[1-9]|1[0-2])\/\d{2}" title="Ingresa un mes válido y dos dígitos de año (ej. 02/26)"
+        oninput="const v=this.value.replace(/[^0-9]/g,'');this.value=v.length>=3?v.slice(0,2)+'/'+v.slice(2,4):v;" 
+        onpaste="event.preventDefault()">      
+        <input type="text" name="codigo_seguridad" placeholder="Código de Seguridad" required minlength="3" maxlength="3">
 
         <div class="payment-logos">
           <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
