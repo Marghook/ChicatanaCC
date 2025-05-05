@@ -1,4 +1,3 @@
-<!-- metodo_pago.html (con modal de "Pago Exitoso") -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,7 +14,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
+      font-family: Verdana, Verdana;
     }
 
     .container {
@@ -69,7 +68,7 @@
     .contenido {
       flex-grow: 1;
       height: 100%;
-      background-image: url('FondoPagina.jpeg');
+      background-image: url('fondo_sinlogo.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -80,13 +79,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 60px;
+      z-index: 10;
     }
 
     .pago-form {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 1);
       padding: 30px;
       border-radius: 10px;
-      width: 350px;
+      width: 450px;
       text-align: center;
     }
 
@@ -213,6 +221,12 @@
         padding: 20px;
         height: auto;
       }
+
+      .logo {
+        top: 10px;
+        right: 10px;
+        height: 150px;
+      }
     }
   </style>
 </head>
@@ -222,7 +236,7 @@
     <div class="sidebar">
       <h2>MENU</h2>
       <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="informacion_socio.php" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
+      <a href="informacion_socio.html" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
       <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
       <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
       <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
@@ -231,23 +245,28 @@
     </div>
 
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
+
       <form class="pago-form" onsubmit="mostrarModal(event)">
         <h3>Método de Pago</h3>
         <input type="text" name="nombre" placeholder="Nombre del Titular" required>
-        <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required>
-        <input type="date" name="fecha_vencimiento" placeholder="Fecha de Vencimiento (MM/AA)" required>
-        <input type="text" name="codigo_seguridad" placeholder="Código de Seguridad" required>
+        <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric">
+        <input type="text" name="fecha_vencimiento" placeholder="mm/aa" required maxlength="5"
+        pattern="(0[1-9]|1[0-2])\/\d{2}" title="Ingresa un mes válido y dos dígitos de año (ej. 02/26)"
+        oninput="const v=this.value.replace(/[^0-9]/g,'');this.value=v.length>=3?v.slice(0,2)+'/'+v.slice(2,4):v;" 
+        onpaste="event.preventDefault()">      
+        <input type="text" name="codigo_seguridad" placeholder="Código de Seguridad" required minlength="3" maxlength="3">
+
         <div class="payment-logos">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="American Express">
-          </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="American Express">
+        </div>
+
         <button type="submit">Pagar</button>
 
         <p>Cancela cuando quieras</p>
         <p>Se aplican <a href="terminos_y_condiciones.html">Términos y Condiciones</a></p>
-
-
       </form>
     </div>
   </div>
@@ -263,7 +282,7 @@
 
   <script>
     function mostrarModal(event) {
-      event.preventDefault(); // Evitar que se envíe el formulario
+      event.preventDefault();
       document.getElementById('modalPagoExitoso').style.display = 'flex';
     }
 
@@ -271,6 +290,5 @@
       document.getElementById('modalPagoExitoso').style.display = 'none';
     }
   </script>
-
 </body>
 </html>
