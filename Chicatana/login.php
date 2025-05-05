@@ -7,45 +7,47 @@ error_reporting(E_ALL);
 require_once 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    session_start();
     // Recoger datos del formulario
-    $nombre = $_POST['nombre'];
     $usuario = $_POST['usuario'];
-    $correo = $_POST['correo'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $password = $_POST['password'];
+    // Verificar si los campos están vacíos
+    if (empty($usuario) || empty($password)) {
+        echo "<script>alert('❌ Por favor, completa todos los campos.'); window.history.back();</script>";
+        exit();
+    }
 
-    // Verificar si ya existe un usuario o correo igual
-    $verificar = $conn->prepare("SELECT idusuario FROM usuario WHERE user = ? OR correo = ?");
-    $verificar->bind_param("ss", $usuario, $correo);
+    // Buscar usuario por nombre
+    $verificar = $conn->prepare("SELECT idusuario, nombre, password FROM usuario WHERE user = ?");
+    $verificar->bind_param("s", $usuario);
     $verificar->execute();
     $verificar->store_result();
 
-    if ($verificar->num_rows > 0) {
-        // Mostrar alerta en HTML si ya existe
-        echo "<script>
-            alert('❌ El nombre de usuario o el correo ya están registrados.');
-            window.history.back(); // Regresar al formulario
-        </script>";
-        $verificar->close();
-        $conn->close();
-        exit();
-    }
-    $verificar->close();
-    
-    if ($stmt) {
-        $stmt->bind_param("ssss", $nombre, $usuario, $correo, $password);
-        if ($stmt->execute()) {
-            // Redirigir a login.html si el registro fue exitoso
-            header("Location: login.html");
-            exit();
-        } else {
-            echo "<script>alert('❌ Error al registrar usuario: " . addslashes($stmt->error) . "'); window.history.back();</script>";
-        }
-        $stmt->close();
-    } else {
-        echo "<script>alert('❌ Error al preparar la consulta.'); window.history.back();</script>";
+    // Verificar si existe
+    if ($verificar->num_rows === 1) {
+        $verificar->bind_result($idusuario, $nombre, $hash);
+        $verificar->fetch();
     }
 
+    // Verificar la contraseña
+    if (password_verify($password, $hash)) {
+        // Guardar datos en la sesión
+        $_SESSION['idusuario'] = $idusuario;
+        $_SESSION['nombre'] = $nombre;  // Ahora se guarda correctamente
+        $_SESSION['user'] = $usuario;
+        header("Location: inicio.html");
+        exit();
+    }
+
+    // Si la contraseña no es correcta
+    echo "<script>
+        alert('❌ El nombre de usuario o la contraseña son incorrectos.');
+        window.history.back();
+    </script>"; // Regresar al formulario
+
+    $verificar->close();
     $conn->close();
 } else {
     echo "<script>alert('Acceso no válido.'); window.history.back();</script>";
 }
+?>
