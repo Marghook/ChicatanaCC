@@ -119,6 +119,13 @@
     .login-form button:hover {
       background-color: #0b1a38;
     }
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 150px;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -129,9 +136,10 @@
       <a href="login.html" class="menu-btn"><i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN</a>
       <a href="registro.html" class="menu-btn"><i class="fas fa-user-plus"></i> REGISTRARSE</a>
     </div>
-    
+
 
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
       <form class="login-form" action="inicio.html" method="post">
         <h3>Iniciar Sesión</h3>
         <input type="text" name="usuario" placeholder="Usuario" required>
