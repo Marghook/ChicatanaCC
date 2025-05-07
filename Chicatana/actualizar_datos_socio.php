@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         echo "<script>
             alert('✅ Datos actualizados correctamente.');
-            window.location.href = 'informacion_socio.html';
+            window.location.href = 'inicio.html';
         </script>";
         exit();
 
