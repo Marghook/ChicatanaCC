@@ -1,3 +1,5 @@
+
+<!-- informacion_socio.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,7 +16,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
+      font-family: Verdana, Verdana;
     }
 
     .container {
@@ -67,7 +69,7 @@
 
     .contenido {
       flex-grow: 1;
-      background-image: url('FondoPagina.jpeg');
+      background-image: url('fondo_sinlogo.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -121,6 +123,14 @@
     .botones button:hover {
       background-color: #0b1a38;
     }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 150px;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -128,7 +138,7 @@
     <div class="sidebar">
       <h2>MENU</h2>
       <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="informacion_socio.php?id=<?php echo $socio['id']; ?>" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
+      <a href="informacion_socio.html" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
       <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
       <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
       <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
@@ -137,36 +147,35 @@
     </div>
 
     <div class="contenido">
-      <form class="formulario" method="POST" action="actualizar_socio.php">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
+      <form class="formulario">
         <h3>Información del Socio</h3>
-        <input type="hidden" name="id" value="<?php echo $socio['id']; ?>">
-
         <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" value="<?php echo $socio['nombre']; ?>" required>
+        <input type="text" id="nombre" name="nombre" required>
 
         <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" name="apellido" value="<?php echo $socio['apellido']; ?>" required>
+        <input type="text" id="apellido" name="apellido" required>
 
         <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" value="<?php echo $socio['telefono']; ?>" required>
+        <input type="tel" id="telefono" name="telefono" required>
 
         <label for="ciudad">Ciudad</label>
-        <input type="text" id="ciudad" name="ciudad" value="<?php echo $socio['ciudad']; ?>" required>
+        <input type="text" id="ciudad" name="ciudad" required>
 
         <label for="cp">C.P</label>
-        <input type="text" id="cp" name="cp" value="<?php echo $socio['cp']; ?>" required>
+        <input type="text" id="cp" name="cp" required>
 
         <label for="colonia">Colonia</label>
-        <input type="text" id="colonia" name="colonia" value="<?php echo $socio['colonia']; ?>" required>
+        <input type="text" id="colonia" name="colonia" required>
 
         <label for="numero_casa">Número de Casa</label>
-        <input type="text" id="numero_casa" name="numero_casa" value="<?php echo $socio['numero_casa']; ?>" required>
+        <input type="text" id="numero_casa" name="numero_casa" required>
 
         <label for="correo">Correo</label>
-        <input type="email" id="correo" name="correo" value="<?php echo $socio['correo']; ?>" required>
+        <input type="email" id="correo" name="correo" required>
 
         <label for="rfc">RFC</label>
-        <input type="text" id="rfc" name="rfc" value="<?php echo $socio['rfc']; ?>" required>
+        <input type="text" id="rfc" name="rfc" required>
 
         <div class="botones">
           <button type="button" onclick="window.location.href='inicio.html'">Cancelar</button>
