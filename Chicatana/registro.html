@@ -1,3 +1,4 @@
+
 <!-- registro.html -->
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +16,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
+      font-family: Verdana, Verdana;
     }
 
     .container {
@@ -70,7 +71,7 @@
     .contenido {
       flex-grow: 1;
       height: 100%;
-      background-image: url('FondoPagina.jpeg');
+      background-image: url('fondo_sinlogo.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -115,6 +116,13 @@
     .registro-form button:hover {
       background-color: #0b1a38;
     }
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 150px;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -127,6 +135,7 @@
     </div>
 
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
       <form class="registro-form" action="login.html" method="post">
         <h3>Crear Cuenta</h3>
         <input type="text" name="nombre" placeholder="Nombre" required>

@@ -15,7 +15,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
+      font-family: Verdana, Verdana;
     }
 
     .container {
@@ -70,7 +70,7 @@
     .contenido {
       flex-grow: 1;
       height: 100%;
-      background-image: url('FondoPagina.jpeg');
+      background-image: url('fondo_sinlogo.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -78,7 +78,12 @@
       color: white;
       overflow-y: auto;
       backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
+
   </style>
 </head>
 <body>
@@ -91,6 +96,7 @@
     </div>
 
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
     </div>
   </div>
 </body>

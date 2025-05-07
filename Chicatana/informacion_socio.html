@@ -1,3 +1,4 @@
+
 <!-- informacion_socio.html -->
 <!DOCTYPE html>
 <html lang="es">
@@ -15,7 +16,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
+      font-family: Verdana, Verdana;
     }
 
     .container {
@@ -68,7 +69,7 @@
 
     .contenido {
       flex-grow: 1;
-      background-image: url('FondoPagina.jpeg');
+      background-image: url('fondo_sinlogo.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -122,6 +123,14 @@
     .botones button:hover {
       background-color: #0b1a38;
     }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 150px;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -138,6 +147,7 @@
     </div>
 
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
       <form class="formulario">
         <h3>Información del Socio</h3>
         <label for="nombre">Nombre</label>
@@ -147,13 +157,7 @@
         <input type="text" id="apellido" name="apellido" required>
 
         <label for="telefono">Teléfono</label>
-<<<<<<< HEAD
         <input type="tel" id="telefono" name="telefono" required>
-=======
-        <input type="tel" id="telefono" name="telefono" required minlength="10" maxlength="10"
-               pattern="\d{10}" inputmode="numeric"
-               oninput="this.value = this.value.replace(/[^0-9]/g, '')">   
->>>>>>> 8d598af1b706c934309908be68ee7105cddae7d7
 
         <label for="ciudad">Ciudad</label>
         <input type="text" id="ciudad" name="ciudad" required>
