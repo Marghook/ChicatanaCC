@@ -147,7 +147,13 @@
         <input type="text" id="apellido" name="apellido" required>
 
         <label for="telefono">Teléfono</label>
+<<<<<<< HEAD
         <input type="tel" id="telefono" name="telefono" required>
+=======
+        <input type="tel" id="telefono" name="telefono" required minlength="10" maxlength="10"
+               pattern="\d{10}" inputmode="numeric"
+               oninput="this.value = this.value.replace(/[^0-9]/g, '')">   
+>>>>>>> 8d598af1b706c934309908be68ee7105cddae7d7
 
         <label for="ciudad">Ciudad</label>
         <input type="text" id="ciudad" name="ciudad" required>
