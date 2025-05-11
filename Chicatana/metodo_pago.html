@@ -86,7 +86,7 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      height: 60px;
+      height: 150px;
       z-index: 10;
     }
 
@@ -236,7 +236,7 @@
     <div class="sidebar">
       <h2>MENU</h2>
       <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="informacion_socio.html" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
+      <a href="informacion_socio.php" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
       <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
       <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
       <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
@@ -253,8 +253,8 @@
         <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric">
         <input type="text" name="fecha_vencimiento" placeholder="mm/aa" required maxlength="5"
         pattern="(0[1-9]|1[0-2])\/\d{2}" title="Ingresa un mes válido y dos dígitos de año (ej. 02/26)"
-        oninput="const v=this.value.replace(/[^0-9]/g,'');this.value=v.length>=3?v.slice(0,2)+'/'+v.slice(2,4):v;" 
-        onpaste="event.preventDefault()">      
+        oninput="const v=this.value.replace(/[^0-9]/g,'');this.value=v.length>=3?v.slice(0,2)+'/'+v.slice(2,4):v;"
+        onpaste="event.preventDefault()">
         <input type="text" name="codigo_seguridad" placeholder="Código de Seguridad" required minlength="3" maxlength="3">
 
         <div class="payment-logos">

@@ -15,7 +15,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
+      font-family: Verdana, Verdana;
     }
 
     .container {
@@ -70,14 +70,18 @@
     .contenido {
       flex-grow: 1;
       height: 100%;
-      background-image: url('FondoPagina.jpeg');
+      background-image: url('fondo_sinlogo.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 40px;
+      color: white;
+      overflow-y: auto;
       backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
 
     .login-form {
@@ -115,6 +119,13 @@
     .login-form button:hover {
       background-color: #0b1a38;
     }
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 150px;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -122,9 +133,13 @@
     <div class="sidebar">
       <h2>MENU</h2>
       <a href="Inicio_sin_sesion.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <button class="menu-btn"><i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN</button>
+      <a href="login.html" class="menu-btn"><i class="fas fa-sign-in-alt"></i> INICIAR SESIÓN</a>
+      <a href="registro.html" class="menu-btn"><i class="fas fa-user-plus"></i> REGISTRARSE</a>
     </div>
+
+
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
       <form class="login-form" action="login.php" method="post">
         <h3>Iniciar Sesión</h3>
         <input type="text" name="usuario" placeholder="Usuario" required>

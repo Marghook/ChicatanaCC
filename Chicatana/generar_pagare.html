@@ -88,25 +88,29 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
     .titulo-bloque {
-      background-color: #0b1a38;
+      background-color: #a88d8c;
       color: white;
       padding: 10px 20px;
       width: 100px;
       text-align: center;
       font-weight: bold;
     }
+
     .fila {
       display: flex;
       justify-content: space-between;
       margin: 10px 0;
     }
+
     .campo {
       display: flex;
       align-items: center;
       gap: 10px;
       margin: 10px 0;
     }
+
     .campo input {
       border: none;
       border-bottom: 1px solid black;
@@ -115,55 +119,73 @@
       padding: 4px;
       width: 250px;
     }
+
     .campo input:focus {
       outline: none;
     }
+
     .resaltado {
-      background-color: #0b1a38;
+      background-color: #a88d8c;
       color: white;
       font-weight: bold;
       display: inline-block;
       padding: 2px 6px;
     }
+
     .firma {
       text-align: right;
       margin-top: 40px;
     }
+
     .firma .subrayado {
       border-bottom: 1px solid black;
       display: inline-block;
       min-width: 200px;
     }
+
     .btn-container {
       text-align: center;
       margin-top: 20px;
     }
+
     .btn-container button {
-      background-color: #0b1a38;
+      background-color: #a88d8c;
       color: white;
       padding: 10px 20px;
       font-size: 16px;
       border: none;
       cursor: pointer;
     }
+
     @media screen and (max-width: 768px) {
       .container {
         flex-direction: column;
       }
+
       .sidebar {
         width: 100%;
         flex-direction: row;
         overflow-x: auto;
       }
+
       .menu-btn {
         flex: 1;
         font-size: 12px;
         justify-content: center;
       }
+
       .contenido {
         padding: 20px;
         height: auto;
       }
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 150px;
+      z-index: 10;
     }
   </style>
 </head>
@@ -172,7 +194,7 @@
     <div class="sidebar">
       <h2>MENU</h2>
       <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="informacion_socio.html" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
+      <a href="informacion_socio.php" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
       <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
       <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
       <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
@@ -181,6 +203,7 @@
     </div>
 
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
       <div class="pagare-container" id="pagare">
         <div class="titulo-bloque">PAGARE</div>
         <div class="fila">
@@ -197,7 +220,7 @@
           <div class="campo">EN LA CANTIDAD DE:<input type="text" /></div>
           <div class="campo">MONEDA: PESOS</div>
         </div>
-        <div style="height: 40px; background-color: #0b1a38; margin: 20px 0;"></div>
+        <div style="height: 40px; background-color: #a88d8c; margin: 20px 0;"></div>
         <p>EN DADO CASO DE NO CUMPLIR CON EL PAGO EN LA FECHA ACORDADA, SE GENERARÁ UN INTERÉS POR DEMORA DEL 5%</p>
         <p><span class="resaltado">DATOS DEL DEUDOR</span></p>
         <div class="campo">NOMBRE:<input type="text" /></div>
@@ -210,22 +233,47 @@
       </div>
 
       <div class="btn-container">
-        <button onclick="guardarComoImagen()">Guardar como imagen</button>
+        <button onclick="guardarComoImagen()">Guardar como PDF</button>
       </div>
     </div>
   </div>
 
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    function guardarComoImagen() {
+    async function guardarComoImagen() {
+      const { jsPDF } = window.jspdf;
       const element = document.getElementById("pagare");
-      html2canvas(element).then(function (canvas) {
-        const link = document.createElement("a");
-        link.download = "pagare.pdf";
-        link.href = canvas.toDataURL();
-        link.click();
+
+      // Capturar el contenido como imagen con mayor resolución
+      const canvas = await html2canvas(element, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+
+      // Crear PDF en tamaño A4 y orientación vertical
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4"
       });
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+
+      // Escalar imagen para que quepa en la hoja A4
+      const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+      const imgScaledWidth = imgWidth * ratio;
+      const imgScaledHeight = imgHeight * ratio;
+
+      const x = (pageWidth - imgScaledWidth) / 2;
+      const y = (pageHeight - imgScaledHeight) / 2;
+
+      pdf.addImage(imgData, "PNG", x, y, imgScaledWidth, imgScaledHeight);
+      pdf.save("pagare.pdf");
     }
   </script>
+
 </body>
 </html>

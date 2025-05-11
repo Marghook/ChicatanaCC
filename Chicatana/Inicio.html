@@ -14,7 +14,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
+      font-family: Verdana, Verdana;
     }
 
     .container {
@@ -68,7 +68,7 @@
     .contenido {
       flex-grow: 1;
       height: 100%;
-      background-image: url('FondoPagina.jpeg'); /* Cambia esto por tu imagen */
+      background-image: url('fondo_sinlogo.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -76,6 +76,10 @@
       color: white;
       overflow-y: auto;
       backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
 
     @media screen and (max-width: 768px) {
@@ -99,6 +103,12 @@
         padding: 20px;
         height: auto;
       }
+
+      .logo {
+        top: 10px;
+        right: 10px;
+        height: 150px;
+      }
     }
   </style>
 </head>
@@ -107,16 +117,17 @@
   <div class="container">
     <div class="sidebar">
       <h2>MENU</h2>
-      <button class="menu-btn"><i class="fas fa-home"></i> INICIO</button>
-      <a href="informacion_socio.html" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
+      <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
+      <a href="informacion_socio.php" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
       <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
       <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
       <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
       <a href="generar_pagare.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> GENERAR PAGARÉ</a>
-      <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
+      <a href="login.html" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>
 
     <div class="contenido">
+      <img src="logo.png" alt="Logo Chicatana" class="logo">
     </div>
   </div>
 
