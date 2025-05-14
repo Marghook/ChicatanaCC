@@ -2,27 +2,27 @@
 session_start();
 require_once 'conexion.php';
 
-if (!isset($_SESSION['idusuario'])) {
-  header("Location: login.html");
-  exit();
+if(!isset ($_SESSION['idusuario'])){
+    header ("Location: login.html");
+    exit();
 }
 
-$usuario = $_SESSION['idusuario'];
+$idusuario = $_SESSION['idusuario'];
 
-$sql = "SELECT u.idusuario, u.nombre, u.correo, s.idsocio, s.apellido, s.telefono, s.ciudad, s.codigo_postal, s.colonia, s.num_casa, s.rfc
-        FROM usuario u
-        JOIN socio s ON u.idusuario = s.iduser";
-$result = $conn->query($sql);
+$sql_pagare = "SELECT u.idusuario, u.nombre, s.apellido, p.idpagare, p.fecha_deuda, p.cantidad, p.pagos 
+FROM usuario u
+JOIN socio s ON u.idusuario = s.iduser
+JOIN pagare p ON p.idusuario = u.idusuario";
 
+$result = $conn->query($sql_pagare);
 ?>
 
-
-<!-- informacion_socio.html -->
+<!-- informacion_pagare.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Información del Socio</title>
+  <title>Información de Pagare</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
@@ -175,25 +175,21 @@ $result = $conn->query($sql);
       <a href="invitados_socios.php" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
       <a href="pagos_cuotas.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
       <a href="pagares_generados.php" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
-      <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
+      <a href="login.html" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>
     <div class="contenido">
       <!--<img src="logo.png" alt="Logo Chicatana" class="logo"> -->
-      <a href="crear_socio.php" class="boton_agregar">Agregar Socio</a>
+      <a href="crear_pagare.php" class="boton_agregar">Agregar Pagare</a>
       <table>
         <thead>
           <tr>
             <th>IDusuario</th>
-            <th>IDsocio</th>
+            <th>IDpagare</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Teléfono</th>
-            <th>Correo</th>
-            <th>Ciudad</th>
-            <th>Codigo Postal</th>
-            <th>Colonia</th>
-            <th>Número de casa</th>
-            <th>RFC</th>
+            <th>Fecha de deuda</th>
+            <th>Cant. Pagos</th>
+            <th>Cantidad</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -201,19 +197,15 @@ $result = $conn->query($sql);
           <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
               <td><?= $row['idusuario'] ?></td>
-              <td><?= htmlspecialchars($row['idsocio']) ?></td>
+              <td><?= htmlspecialchars($row['idpagare']) ?></td>
               <td><?= htmlspecialchars($row['nombre']) ?></td>
               <td><?= htmlspecialchars($row['apellido']) ?></td>
-              <td><?= htmlspecialchars($row['telefono']) ?></td>
-              <td><?= htmlspecialchars($row['correo']) ?></td>
-              <td><?= htmlspecialchars($row['ciudad']) ?></td>
-              <td><?= htmlspecialchars($row['codigo_postal']) ?></td>
-              <td><?= htmlspecialchars($row['colonia']) ?></td>
-              <td><?= htmlspecialchars($row['num_casa']) ?></td>
-              <td><?= htmlspecialchars($row['rfc']) ?></td>
+              <td><?= htmlspecialchars($row['fecha_deuda']) ?></td>
+              <td><?= htmlspecialchars($row['pagos']) ?></td>
+              <td><?= htmlspecialchars($row['cantidad']) ?></td>
               <td>
-                <a href="editar_socio_usuario.php?idusuario=<?= $row['idusuario'] ?>&idsocio=<?= $row['idsocio'] ?>">Editar</a> |
-                <a href="eliminar_usuario.php?idusuario=<?= $row['idusuario'] ?>" onclick="return confirm('¿Eliminar este usuario y sus datos de socio?')">Eliminar</a>
+              <a href="editar_pagare.php?idpagare=<?= $row['idpagare'] ?>">Editar</a> |
+              <a href="eliminar_pagare.php?idpagare=<?= $row['idpagare'] ?>" onclick="return confirm('¿Eliminar este pagare?')">Eliminar</a>
               </td>
             </tr>
           <?php endwhile; ?>

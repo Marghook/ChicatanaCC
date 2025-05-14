@@ -247,7 +247,7 @@
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
 
-      <form class="pago-form" onsubmit="mostrarModal(event)">
+      <form class="pago-form" method="post" action="metodo_pago.php" onsubmit="mostrarModal(event) ">
         <h3>Método de Pago</h3>
         <input type="text" name="nombre" placeholder="Nombre del Titular" required>
         <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric">
@@ -276,15 +276,24 @@
     <div class="modal-content">
       <p>PAGO EXITOSO</p>
       <i class="fas fa-check"></i>
-      <button onclick="cerrarModal()">Salir</button>
+      <button onclick="enviarFormulario()">Salir</button>
     </div>
   </div>
 
   <script>
+    let formularioPendiente;
     function mostrarModal(event) {
       event.preventDefault();
+      formularioPendiente = event.target; // guardamos el formulario que se iba a enviar
       document.getElementById('modalPagoExitoso').style.display = 'flex';
     }
+
+    function enviarFormulario() {
+    document.getElementById('modalPagoExitoso').style.display = 'none';
+    if (formularioPendiente) {
+      formularioPendiente.submit(); // enviamos el formulario manualmente
+    }
+  }
 
     function cerrarModal() {
       document.getElementById('modalPagoExitoso').style.display = 'none';

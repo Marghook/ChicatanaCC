@@ -1,10 +1,40 @@
 
+<?php
+session_start();
+require_once 'conexion.php';
+
+if(!isset($_SESSION['idusuario'])){
+  header("Location: login.html");
+  exit();
+}
+
+$usuario = $_GET['idusuario'];
+$socio = $_GET['idsocio'];
+
+$stmt = $conn->prepare("SELECT nombre, correo, password FROM usuario WHERE idusuario = ?");
+$stmt->bind_param("i",$usuario);
+$stmt->execute();
+$stmt->store_result();
+$stmt->bind_result($nombre,$correo,$password);
+$stmt->fetch();
+
+$stmt2 = $conn->prepare("SELECT idsocio,apellido, telefono, ciudad, codigo_postal, colonia, num_casa, rfc FROM socio WHERE iduser = ?");
+$stmt2->bind_param("i", $usuario);
+$stmt2->execute();
+$stmt2->store_result();
+$stmt2->bind_result($socio,$apellido,$telefono,$ciudad,$cp,$colonia,$num_casa,$rfc);
+$stmt2->fetch();
+
+$stmt->close();
+$stmt2->close();
+?>
+
 <!-- informacion_socio.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Información de Familiar</title>
+  <title>Información del Usuario</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
@@ -123,6 +153,7 @@
     .botones button:hover {
       background-color: #0b1a38;
     }
+
     .logo {
       position: absolute;
       top: 20px;
@@ -147,37 +178,44 @@
 
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
-      <form class="formulario" method="post" action="agregar_familiar.php">
-        <h3>Información de Familiar</h3>
+      <form class="formulario" method="POST" action="actualizar_socio_usuario.php">
+        <h3>Información del Usuario</h3>
+
+        <input type="hidden" id="idusuario" name="idusuario" value="<?= htmlspecialchars($usuario)?>">
+        <input type="hidden" id="idsocio" name="idsocio" value="<?= htmlspecialchars($socio)?>">
+
         <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <input type="text" id="nombre" name="nombre" value="<?= htmlspecialchars($nombre) ?>" required>
 
         <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" name="apellido" required>
+        <input type="text" id="apellido" name="apellido" value="<?= htmlspecialchars($apellido) ?>" required>
 
         <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" required>
+        <input type="tel" id="telefono" name="telefono" value="<?= htmlspecialchars($telefono) ?>" required>
 
         <label for="ciudad">Ciudad</label>
-        <input type="text" id="ciudad" name="ciudad" required>
+        <input type="text" id="ciudad" name="ciudad" value="<?= htmlspecialchars($ciudad) ?>" required>
 
         <label for="cp">C.P</label>
-        <input type="text" id="cp" name="cp" required>
+        <input type="text" id="cp" name="cp" value="<?= htmlspecialchars($cp) ?>" required>
 
         <label for="colonia">Colonia</label>
-        <input type="text" id="colonia" name="colonia" required>
+        <input type="text" id="colonia" name="colonia" value="<?= htmlspecialchars($colonia) ?>" required>
 
         <label for="numero_casa">Número de Casa</label>
-        <input type="text" id="numero_casa" name="numero_casa" required>
+        <input type="text" id="numero_casa" name="numero_casa" value="<?= htmlspecialchars($num_casa) ?>" required>
 
         <label for="correo">Correo</label>
-        <input type="email" id="correo" name="correo" required>
+        <input type="email" id="correo" name="correo" value="<?= htmlspecialchars($correo) ?>" required>
 
         <label for="rfc">RFC</label>
-        <input type="text" id="rfc" name="rfc" required>
+        <input type="text" id="rfc" name="rfc" value="<?= htmlspecialchars($rfc) ?>" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required>
 
         <div class="botones">
-          <button type="button" onclick="window.location.href='inicio.html'">Cancelar</button>
+          <button type="button" onclick="window.location.href='inicio_admin.html'">Cancelar</button>
           <button type="submit">Guardar</button>
         </div>
       </form>
