@@ -75,6 +75,7 @@
       color: white;
       overflow-y: auto;
       backdrop-filter: blur(4px);
+      position: relative; /* Añadido para el posicionamiento del logo */
     }
 
     .formulario {
@@ -128,6 +129,75 @@
       height: 150px;
       z-index: 10;
     }
+
+    /* Estilos para el contenedor de la tabla y el botón de pagar */
+    .tabla-placeholder-container {
+      margin-top: 30px; /* Espacio sobre el área de la tabla */
+      margin-bottom: 30px; /* Espacio debajo del área de la tabla */
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.4); /* Fondo semitransparente para el área */
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .tabla-placeholder-container p {
+      font-style: italic;
+      color: #f0f0f0; /* Un blanco un poco más suave */
+      margin-bottom: 15px; /* Espacio antes del ejemplo de tabla si se descomenta */
+    }
+
+    .boton-pagar-container {
+      text-align: center; /* Centra el botón */
+      margin-top: 20px; /* Espacio sobre el botón */
+      padding-bottom: 20px; /* Espacio al final del contenido */
+    }
+
+    .btn-pagar {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1d2e4a; /* Color similar a otros botones del menú */
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+      font-family: Verdana, Verdana; /* Consistencia de fuente */
+      transition: background-color 0.3s;
+      display: inline-flex; /* Para alinear ícono y texto */
+      align-items: center;
+      gap: 8px; /* Espacio entre ícono y texto */
+    }
+
+    .btn-pagar:hover {
+      background-color: #0b1a38; /* Color hover similar */
+    }
+
+    /* Estilos básicos para una tabla de ejemplo (opcional, puedes personalizarla más) */
+    .tabla-ejemplo {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.2); /* Fondo ligeramente más oscuro para la tabla */
+    }
+    .tabla-ejemplo th, .tabla-ejemplo td {
+        padding: 12px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        text-align: left;
+    }
+    .tabla-ejemplo thead th {
+        background-color: rgba(29, 46, 74, 0.7); /* Azul oscuro semitransparente para encabezados */
+        font-weight: bold;
+    }
+    .tabla-ejemplo tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.05); /* Resaltar filas pares sutilmente */
+    }
+    .tabla-ejemplo tfoot td {
+        font-weight: bold;
+        text-align: right;
+        background-color: rgba(29, 46, 74, 0.7);
+    }
+
   </style>
 </head>
 <body>
@@ -146,6 +216,15 @@
 
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
+
+      <div class="tabla-placeholder-container">
+          <p>Aquí se mostrará la tabla con la información detallada de tu cuenta.</p>
+
+          </div>
+
+      <div class="boton-pagar-container">
+          <a href="metodo_pago.html" class="btn-pagar"><i class="fas fa-credit-card"></i> PAGAR ESTADO DE CUENTA</a>
+      </div>
 
     </div>
   </div>
