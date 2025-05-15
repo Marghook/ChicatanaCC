@@ -9,11 +9,11 @@ if (!isset($_SESSION['idusuario'])){
 
 $idusuario = $_SESSION['idusuario'];
 
-$sql_pcuotas = "SELECT u.idusuario, u.nombre, s.apellido, 
+$sql_pcuotas = "SELECT u.nombre, s.idsocio, s.apellido,
     p.idpago, p.num_tarjeta, p.fecha, p.concepto, p.cantidad
 FROM usuario u
 JOIN socio s ON u.idusuario = s.iduser
-JOIN pago p ON p.idusuario = u.idusuario";
+JOIN pago p ON p.idsocio = s.idsocio";
 
 $result = $conn->query($sql_pcuotas);
 ?>
@@ -184,7 +184,7 @@ $result = $conn->query($sql_pcuotas);
       <table>
         <thead>
           <tr>
-            <th>IDusuario</th>
+            <th>IDsocio</th>
             <th>IDpago</th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -198,7 +198,7 @@ $result = $conn->query($sql_pcuotas);
         <tbody>
           <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
-              <td><?= $row['idusuario'] ?></td>
+              <td><?= $row['idsocio'] ?></td>
               <td><?= htmlspecialchars($row['idpago']) ?></td>
               <td><?= htmlspecialchars($row['nombre']) ?></td>
               <td><?= htmlspecialchars($row['apellido']) ?></td>
