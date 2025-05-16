@@ -96,43 +96,49 @@ $result = $conn->query($sql);
       overflow-y: auto;
       backdrop-filter: blur(4px);
     }
-    table {
-      width: 100%;
-      margin-top: 70px;
-      border-collapse: collapse;
-      color: white;
-      background-color: rgba(0, 0, 0, 0.6);
+    /* Estilos para el contenedor de la tabla y el botón de pagar */
+    .tabla-placeholder-container {
+      margin-top: 30px; /* Espacio sobre el área de la tabla */
+      margin-bottom: 30px; /* Espacio debajo del área de la tabla */
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.4); /* Fondo semitransparente para el área */
+      border-radius: 8px;
+      text-align: center;
+      max-width: 100%;          /* Evita que se expanda más allá del viewport */
+      overflow-x: auto;         /* Permite scroll si la tabla aún se desborda */
+      box-sizing: border-box;
     }
-    
-    th, td {
-      padding: 12px 15px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      text-align: left;
+
+    .tabla-placeholder-container p {
+      font-style: italic;
+      color: #f0f0f0; /* Un blanco un poco más suave */
+      margin-bottom: 15px; /* Espacio antes del ejemplo de tabla si se descomenta */
     }
-    
-    th {
-      background-color: rgba(29, 46, 74, 0.7);
-      font-weight: bold;
+
+    /* Estilos básicos para una tabla de ejemplo (opcional, puedes personalizarla más) */
+    .tabla-ejemplo {
+        width: 100%;
+        margin-top: 70px;
+        border-collapse: collapse;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.6); /* Fondo ligeramente más oscuro para la tabla */
     }
-    thead th {
-        background-color: rgba(29, 46, 74, 0.7);
+    .tabla-ejemplo th, .tabla-ejemplo td {
+        padding: 12px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        text-align: left;
+    }
+    .tabla-ejemplo thead th {
+        background-color: rgba(29, 46, 74, 0.7); /* Azul oscuro semitransparente para encabezados */
         font-weight: bold;
     }
-    tbody tr:nth-child(even) {
-        background-color: rgba(255, 255, 255, 0.05);
+    .tabla-ejemplo tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.05); /* Resaltar filas pares sutilmente */
     }
-    tfoot td {
+    .tabla-ejemplo tfoot td {
         font-weight: bold;
         text-align: right;
         background-color: rgba(29, 46, 74, 0.7);
-    }
-    td a {
-      color: #007bff;
-      text-decoration: none;
-    }
-    
-    td a:hover {
-      text-decoration: underline;
     }
     
     .botones {
@@ -193,7 +199,8 @@ $result = $conn->query($sql);
     <div class="contenido">
       <!--<img src="logo.png" alt="Logo Chicatana" class="logo"> -->
       <a href="crear_socio.php" class="boton_agregar">Agregar Socio</a>
-      <table>
+      <div class="tabla-placeholder-container">
+      <table class="tabla-ejemplo">
         <thead>
           <tr>
             <th>IDusuario</th>
@@ -232,6 +239,7 @@ $result = $conn->query($sql);
           <?php endwhile; ?>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </body>
