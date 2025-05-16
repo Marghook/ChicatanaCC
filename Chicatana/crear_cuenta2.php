@@ -1,10 +1,25 @@
+<?php
+session_start();
+require_once 'conexion.php';
 
-<!-- informacion_socio.html -->
+if (!isset($_SESSION['idusuario'])){
+    header("Location: login.html");
+    exit();
+}
+
+if (!isset($_POST['idsocio'])) {
+    echo "❌ No se recibió el socio.";
+    exit();
+}
+
+$idsocio = (int)$_POST['idsocio'];
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Información del Socio</title>
+<meta charset="UTF-8">
+  <title>Creación de Cuenta</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
@@ -123,7 +138,6 @@
     .botones button:hover {
       background-color: #0b1a38;
     }
-
     .logo {
       position: absolute;
       top: 20px;
@@ -136,50 +150,39 @@
 <body>
   <div class="container">
     <div class="sidebar">
-      <h2>MENU</h2>
-      <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="informacion_socio.html" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
-      <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
-      <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
-      <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
-      <a href="generar_pagare.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> GENERAR PAGARÉ</a>
-      <a href="login.html" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
+    <h2>MENU</h2>
+        <a href="Inicio_admin.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
+        <a href="socios.php" class="menu-btn"><i class="fas fa-user"></i> SOCIOS</a>
+        <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
+        <a href="invitados_socios.php" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
+        <a href="pagos_cuotas.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
+        <a href="agregar_cuenta_admin.php" class="menu-btn"><i class="fas fa-money-bill"></i>AGREGAR CUENTA</a>
+        <a href="pagares_generados.php" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
+        <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>
 
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
-      <form class="formulario">
-        <h3>Información del Socio</h3>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required>
+      <form class="formulario" method="post" action="insert_cuenta.php">
+        <h3>Creación de Cuenta</h3>
 
-        <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" name="apellido" required>
+        <input type="hidden" name="idsocio" value="<?= $idsocio ?>">
 
-        <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" required>
+        <label for="descripcion">Descripción del consumo</label>
+        <input type="text" name="descripcion" id="descripcion" required>
 
-        <label for="ciudad">Ciudad</label>
-        <input type="text" id="ciudad" name="ciudad" required>
+        <label for="cantidad">Monto</label>
+        <input type="number" name="cantidad" id="cantidad" required>
 
-        <label for="cp">C.P</label>
-        <input type="text" id="cp" name="cp" required>
-
-        <label for="colonia">Colonia</label>
-        <input type="text" id="colonia" name="colonia" required>
-
-        <label for="numero_casa">Número de Casa</label>
-        <input type="text" id="numero_casa" name="numero_casa" required>
-
-        <label for="correo">Correo</label>
-        <input type="email" id="correo" name="correo" required>
-
-        <label for="rfc">RFC</label>
-        <input type="text" id="rfc" name="rfc" required>
+        <label for="pagado">¿Pagado?</label>
+        <select name="pagado" id="pagado" required>
+          <option value="1">Pagado</option>
+          <option value="0">No Pagado</option>
+        </select>
 
         <div class="botones">
-          <button type="button" onclick="window.location.href='inicio.html'">Cancelar</button>
-          <button type="submit">Guardar</button>
+          <button type="button" onclick="window.location.href='agregar_cuenta_admin.php'">Cancelar</button>
+          <button type="submit">Registrar</button>
         </div>
       </form>
     </div>

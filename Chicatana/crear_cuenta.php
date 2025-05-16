@@ -1,9 +1,21 @@
+<?php
+session_start();
+require_once 'conexion.php';
+
+if (!isset($_SESSION['idusuario'])) {
+    header("Location: login.html");
+    exit();
+}
+
+// Obtener socios
+$socios = $conn->query("SELECT s.idsocio, u.nombre, u.user FROM socio s JOIN usuario u ON s.iduser = u.idusuario");
+?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Agregar Invitado</title>
+<meta charset="UTF-8">
+  <title>Creación de Cuenta</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
@@ -134,39 +146,33 @@
 <body>
   <div class="container">
     <div class="sidebar">
-      <h2>MENU</h2>
-      <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="informacion_socio.php" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
-      <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
-      <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
-      <a href="cuenta.php" class="menu-btn"><i class="fas fa-money-bill"></i> CUENTA</a>
-      <a href="metodo_pago_form.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
-      <a href="generar_pagare.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> GENERAR PAGARÉ</a>
-      <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
+    <h2>MENU</h2>
+        <a href="Inicio_admin.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
+        <a href="socios.php" class="menu-btn"><i class="fas fa-user"></i> SOCIOS</a>
+        <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
+        <a href="invitados_socios.php" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
+        <a href="pagos_cuotas.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
+        <a href="agregar_cuenta_admin.php" class="menu-btn"><i class="fas fa-money-bill"></i>AGREGAR CUENTA</a>
+        <a href="pagares_generados.php" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
+        <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>
 
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
-      <form class="formulario" method="post" action="agregar_invitado.php">
-        <h3>Agregar Invitado</h3>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required>
-
-        <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" name="apellido" required>
-
-        <label for="telefono">Número de Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" required>
-
-        <label for="correo">Correo</label>
-        <input type="email" id="correo" name="correo" required>
-
-        <label for="fecha">Fecha de visita</label>
-        <input type="date" id="fecha" name="fecha" required>
+      <form class="formulario" method="post" action="crear_cuenta2.php">
+        <h3>Creación de Cuenta</h3>
+        
+        <label for="idsocio">Selecciona al socio:</label>
+        <select name="idsocio" id="idsocio" required>
+          <option value="">-- Selecciona --</option>
+          <?php foreach ($socios as $socio): ?>
+            <option value="<?= $socio['idsocio'] ?>"><?= htmlspecialchars($socio['nombre']) ?> (<?= htmlspecialchars($socio['user']) ?>)</option>
+          <?php endforeach; ?>
+        </select>
 
         <div class="botones">
-          <button type="button" onclick="window.location.href='inicio.html'">Cancelar</button>
-          <button type="submit">Guardar</button>
+          <button type="button" onclick="window.location.href='agregar_cuenta_admin.php'">Cancelar</button>
+          <button type="submit">Siguiente</button>
         </div>
       </form>
     </div>
