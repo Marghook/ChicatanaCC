@@ -1,7 +1,20 @@
+<?php
+session_start();
+require_once 'conexion.php';
+
+if (!isset($_SESSION['idusuario'])) {
+    header("Location: login.html");
+    exit();
+}
+
+// Obtener socios
+$socios = $conn->query("SELECT s.idsocio, u.nombre, u.user FROM socio s JOIN usuario u ON s.iduser = u.idusuario");
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <title>Creación de Cuenta</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
@@ -133,7 +146,7 @@
 <body>
   <div class="container">
     <div class="sidebar">
-        <h2>MENU</h2>
+    <h2>MENU</h2>
         <a href="Inicio_admin.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
         <a href="socios.php" class="menu-btn"><i class="fas fa-user"></i> SOCIOS</a>
         <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
@@ -146,21 +159,22 @@
 
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
-      <form class="formulario" method="post" action="insert_cuenta.php">
+      <form class="formulario" method="post" action="crear_cuenta2.php">
         <h3>Creación de Cuenta</h3>
-        <form method="post">
-          <label for="tipo_consumidor">¿Quién consumió?</label>
-          <select name="tipo_consumidor" id="tipo_consumidor" required>
-            <option value="">-- Selecciona --</option>
-            <option value="socio" <?= $tipo === 'socio' ? 'selected' : '' ?>>Socio</option>
-            <option value="familiar" <?= $tipo === 'familiar' ? 'selected' : '' ?>>Familiar</option>
-            <option value="invitado" <?= $tipo === 'invitado' ? 'selected' : '' ?>>Invitado</option>
-          </select>
-          <div class="botones">
-            <button type="button" onclick="window.location.href='agregar_cuenta_admin.php'">Cancelar</button>
-            <button type="submit">Siguiente</button>
-          </div>
-        </form>
+        
+        <label for="idsocio">Selecciona al socio:</label>
+        <select name="idsocio" id="idsocio" required>
+          <option value="">-- Selecciona --</option>
+          <?php foreach ($socios as $socio): ?>
+            <option value="<?= $socio['idsocio'] ?>"><?= htmlspecialchars($socio['nombre']) ?> (<?= htmlspecialchars($socio['user']) ?>)</option>
+          <?php endforeach; ?>
+        </select>
+
+        <div class="botones">
+          <button type="button" onclick="window.location.href='agregar_cuenta_admin.php'">Cancelar</button>
+          <button type="submit">Siguiente</button>
+        </div>
+      </form>
     </div>
   </div>
 </body>

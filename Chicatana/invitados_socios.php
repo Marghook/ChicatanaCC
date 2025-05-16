@@ -90,31 +90,47 @@ $result = $conn->query($sql_invitado);
       overflow-y: auto;
       backdrop-filter: blur(4px);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 70px;
-      background-color: white;
-      color: black;
+
+        /* Estilos para el contenedor de la tabla y el botón de pagar */
+    .tabla-placeholder-container {
+      margin-top: 30px; /* Espacio sobre el área de la tabla */
+      margin-bottom: 30px; /* Espacio debajo del área de la tabla */
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.4); /* Fondo semitransparente para el área */
+      border-radius: 8px;
+      text-align: center;
     }
-    
-    th, td {
-      padding: 10px;
-      border: 1px solid #ccc;
+
+    .tabla-placeholder-container p {
+      font-style: italic;
+      color: #f0f0f0; /* Un blanco un poco más suave */
+      margin-bottom: 15px; /* Espacio antes del ejemplo de tabla si se descomenta */
     }
-    
-    th {
-      background-color: #1d2e4a;
-      color: white;
+
+    /* Estilos básicos para una tabla de ejemplo (opcional, puedes personalizarla más) */
+    .tabla-ejemplo {
+        width: 100%;
+        margin-top: 70px;
+        border-collapse: collapse;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.6); /* Fondo ligeramente más oscuro para la tabla */
     }
-    
-    td a {
-      color: #007bff;
-      text-decoration: none;
+    .tabla-ejemplo th, .tabla-ejemplo td {
+        padding: 12px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        text-align: left;
     }
-    
-    td a:hover {
-      text-decoration: underline;
+    .tabla-ejemplo thead th {
+        background-color: rgba(29, 46, 74, 0.7); /* Azul oscuro semitransparente para encabezados */
+        font-weight: bold;
+    }
+    .tabla-ejemplo tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.05); /* Resaltar filas pares sutilmente */
+    }
+    .tabla-ejemplo tfoot td {
+        font-weight: bold;
+        text-align: right;
+        background-color: rgba(29, 46, 74, 0.7);
     }
     
     .botones {
@@ -168,13 +184,15 @@ $result = $conn->query($sql_invitado);
       <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
       <a href="invitados_socios.php" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
       <a href="pagos_cuotas.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
+      <a href="agregar_cuenta_admin.php" class="menu-btn"><i class="fas fa-money-bill"></i>AGREGAR CUENTA</a>
       <a href="pagares_generados.php" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
       <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>
     <div class="contenido">
       <!--<img src="logo.png" alt="Logo Chicatana" class="logo"> -->
       <a href="crear_invitado.php" class="boton_agregar">Agregar Invitado</a>
-      <table>
+      <div class="tabla-placeholder-container">
+      <table class="tabla-ejemplo">
         <thead>
           <tr>
             <th>IDsocio</th>
@@ -190,21 +208,22 @@ $result = $conn->query($sql_invitado);
         <tbody>
           <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
-              <td><?= $row['idinvitado'] ?></td>
-              <td><?= htmlspecialchars($row['idsocio']) ?></td>
+              <td><?= $row['idsocio'] ?></td>
+              <td><?= htmlspecialchars($row['idinvitado']) ?></td>
               <td><?= htmlspecialchars($row['nombre']) ?></td>
               <td><?= htmlspecialchars($row['apellido']) ?></td>
               <td><?= htmlspecialchars($row['telefono']) ?></td>
               <td><?= htmlspecialchars($row['correo']) ?></td>
               <td><?= htmlspecialchars($row['fecha']) ?></td>
               <td>
-                <a href="editar_invitado.php?id=<?= $row['idinvitado'] ?>">Editar</a> |
-                <a href="eliminar_invitado.php?id=<?= $row['idinvitado'] ?>" onclick="return confirm('¿Eliminar este invitado?')">Eliminar</a>
+                <a href="editar_invitado.php?idsocio=<?= $row['idsocio'] ?>">Editar</a> |
+                <a href="eliminar_invitado.php?idinvitado=<?= $row['idinvitado'] ?>" onclick="return confirm('¿Eliminar este invitado?')">Eliminar</a>
               </td>
             </tr>
           <?php endwhile; ?>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </body>

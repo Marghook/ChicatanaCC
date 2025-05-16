@@ -2,13 +2,13 @@
 session_start();
 require_once 'conexion.php';
 
-if (!isset($_SESSION['idusuario'])){
+if (!isset($_SESSION['idusuario'])) {
     header("Location: login.html");
     exit();
 }
 
 $sql_cuenta = "SELECT s.idsocio,
-    c.idcuenta, c.tipo_consumidor, c.idconsumidor, c.descripcion, c.fecha, c.pagado
+    c.idcuenta, c.descripcion, c.fecha, c.cantidad, c.pagado
 FROM socio s
 JOIN cuenta c ON s.idsocio = c.idsocio";
 
@@ -170,32 +170,29 @@ $result = $conn->query($sql_cuenta);
     }
 
     .btn-pagar {
-      padding: 12px 28px;
+      padding: 8px 18px;
       border: none;
       border-radius: 5px;
-      background-color: #1d2e4a; /* Color similar a otros botones del menú */
+      background-color: #1d2e4a;
       color: white;
       cursor: pointer;
       text-decoration: none;
-      font-size: 16px;
-      font-family: Verdana, Verdana; /* Consistencia de fuente */
-      transition: background-color 0.3s;
-      display: inline-flex; /* Para alinear ícono y texto */
+      font-size: 14px;
+      display: inline-flex;
       align-items: center;
-      gap: 8px; /* Espacio entre ícono y texto */
+      gap: 6px;
     }
 
     .btn-pagar:hover {
-      background-color: #0b1a38; /* Color hover similar */
+      background-color: #0b1a38;
     }
 
-    /* Estilos básicos para una tabla de ejemplo (opcional, puedes personalizarla más) */
     .tabla-ejemplo {
         width: 100%;
-        margin-top: 20px;
+        margin-top: 60px;
         border-collapse: collapse;
         color: white;
-        background-color: rgba(0, 0, 0, 0.2); /* Fondo ligeramente más oscuro para la tabla */
+        background-color: rgba(0, 0, 0, 0.6);
     }
     .tabla-ejemplo th, .tabla-ejemplo td {
         padding: 12px 15px;
@@ -203,19 +200,18 @@ $result = $conn->query($sql_cuenta);
         text-align: left;
     }
     .tabla-ejemplo thead th {
-        background-color: rgba(29, 46, 74, 0.7); /* Azul oscuro semitransparente para encabezados */
+        background-color: rgba(29, 46, 74, 0.7);
         font-weight: bold;
     }
     .tabla-ejemplo tbody tr:nth-child(even) {
-        background-color: rgba(255, 255, 255, 0.05); /* Resaltar filas pares sutilmente */
+        background-color: rgba(255, 255, 255, 0.05);
     }
     .tabla-ejemplo tfoot td {
         font-weight: bold;
         text-align: right;
         background-color: rgba(29, 46, 74, 0.7);
     }
-
-  </style>
+    </style>
 </head>
 <body>
   <div class="container">
@@ -226,7 +222,7 @@ $result = $conn->query($sql_cuenta);
       <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
       <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
       <a href="cuenta.php" class="menu-btn"><i class="fas fa-money-bill"></i> CUENTA</a>
-      <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
+      <a href="metodo_pago_form.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
       <a href="generar_pagare.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> GENERAR PAGARÉ</a>
       <a href="login.html" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>
@@ -240,32 +236,35 @@ $result = $conn->query($sql_cuenta);
             <tr>
               <th>IDsocio</th>
               <th>IDcuenta</th>
-              <th>Consumidor</th>
-              <th>IDconsumidor</th>
               <th>Descripción</th>
-              <th>Monto</th>
               <th>Fecha</th>
+              <th>Monto</th>
               <th>Estado de pago</th>
+              <th>Acciones</th>
             <tr>
           </thead>
           <tbody>
-            <?php while($row = $result->fetch_assoc()): ?>
+          <?php while($row = $result->fetch_assoc()): ?>
             <tr>
               <td><?= $row['idsocio'] ?></td>
               <td><?= $row['idcuenta'] ?></td>
-              <td><?= $row['tipo_consumidor'] ?></td>
-              <td><?= $row['idconsumidor'] ?></td>
               <td><?= $row['descripcion'] ?></td>
               <td><?= $row['fecha'] ?></td>
-              <td><?= $row['pagada'] ? 'Sí' : 'No' ?></td>
+              <td><?= $row['cantidad'] ?></td>
+              <td><?= $row['pagado'] ? 'Sí' : 'No' ?></td>
+              <td>
+                <?php if (!$row['pagado']): ?>
+                  <a href="metodo_pago_form.php?idcuenta=<?= $row['idcuenta'] ?>" class="btn-pagar">
+                    <i class="fas fa-credit-card"></i> PAGAR
+                  </a>
+                  <?php else: ?>
+                  <span style="color: gray;">Pagado</span>
+                  <?php endif; ?>
+              </td>
             </tr>
             <?php endwhile; ?>
           </tbody>
         </table>
-      </div>
-
-      <div class="boton-pagar-container">
-          <a href="metodo_pago.html" class="btn-pagar"><i class="fas fa-credit-card"></i> PAGAR ESTADO DE CUENTA</a>
       </div>
     </div>
   </div>

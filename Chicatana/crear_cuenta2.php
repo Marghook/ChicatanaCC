@@ -6,21 +6,19 @@ if (!isset($_SESSION['idusuario'])){
     header("Location: login.html");
     exit();
 }
-$tipo = $_POST['tipo_consumidor'] ?? null;
-// Obtener socios
-$socios = $conexion->query("SELECT s.idsocio, u.nombre, u.user FROM socio s JOIN usuario u ON s.iduser = u.idusuario");
 
-// Obtener familiares
-$familiares = $conexion->query("SELECT idfamiliar, nombre, idsocio FROM familiar");
+if (!isset($_POST['idsocio'])) {
+    echo "❌ No se recibió el socio.";
+    exit();
+}
 
-// Obtener invitados
-$invitados = $conexion->query("SELECT idinvitado, nombre, idsocio FROM invitado");
+$idsocio = (int)$_POST['idsocio'];
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <title>Creación de Cuenta</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
@@ -152,7 +150,7 @@ $invitados = $conexion->query("SELECT idinvitado, nombre, idsocio FROM invitado"
 <body>
   <div class="container">
     <div class="sidebar">
-        <h2>MENU</h2>
+    <h2>MENU</h2>
         <a href="Inicio_admin.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
         <a href="socios.php" class="menu-btn"><i class="fas fa-user"></i> SOCIOS</a>
         <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
@@ -167,50 +165,27 @@ $invitados = $conexion->query("SELECT idinvitado, nombre, idsocio FROM invitado"
       <img src="logo.png" alt="Logo Chicatana" class="logo">
       <form class="formulario" method="post" action="insert_cuenta.php">
         <h3>Creación de Cuenta</h3>
-        <?php if ($tipo === 'socio'): ?>
-            <label for="idsocio">Selecciona al socio:</label>
-            <select name="idsocio" required>
-                <option value="">-- Selecciona --</option>
-                <?php foreach ($socios as $socio): ?>
-                    <option value="<?= $socio['idsocio'] ?>"><?= htmlspecialchars($socio['nombre']) ?> (<?= htmlspecialchars($socio['user']) ?>)</option>
-                <?php endforeach; ?>
-            </select>
-            
-        <?php elseif ($tipo === 'familiar'): ?>
-            <label for="idfamiliar">Selecciona al familiar:</label>
-            <select name="idfamiliar" required>
-                <option value="">-- Selecciona --</option>
-                <?php foreach ($familiares as $familiar): ?>
-                    <option value="<?= $familiar['idfamiliar'] ?>">Familiar ID <?= $familiar['idfamiliar'] ?> (Socio ID <?= $familiar['idsocio'] ?>)</option>
-                <?php endforeach; ?>
-            </select>
-                
-            <?php elseif ($tipo === 'invitado'): ?>
-                <label for="idinvitado">Selecciona al invitado:</label>
-                <select name="idinvitado" required>
-                    <option value="">-- Selecciona --</option>
-                    <?php foreach ($invitados as $invitado): ?>
-                        <option value="<?= $invitado['idinvitado'] ?>">Invitado ID <?= $invitado['idinvitado'] ?> (Socio ID <?= $invitado['idsocio'] ?>)</option>
-                    <?php endforeach; ?>
-                </select>
-            <?php endif; ?>
-                
-            <label for="descripcion">Descripción del consumo</label>
-            <input type="text" name="descripcion" id="descripcion" required>
-                
-            <label for="monto">Monto</label>
-            <input type="number" name="monto" id="monto" step="0.01" required>
-                
-            <label for="pagado">¿Pagado?</label>
-            <select name="pagado" id="pagado" required>
-                <option value="1">Pagado</option>
-                <option value="0">No Pagado</option>
-            </select>
-                
-            <div class="botones">
-                <button type="submit">Registrar</button>
-            </div>
+
+        <input type="hidden" name="idsocio" value="<?= $idsocio ?>">
+
+        <label for="descripcion">Descripción del consumo</label>
+        <input type="text" name="descripcion" id="descripcion" required>
+
+        <label for="cantidad">Monto</label>
+        <input type="number" name="cantidad" id="cantidad" required>
+
+        <label for="pagado">¿Pagado?</label>
+        <select name="pagado" id="pagado" required>
+          <option value="1">Pagado</option>
+          <option value="0">No Pagado</option>
+        </select>
+
+        <div class="botones">
+          <button type="button" onclick="window.location.href='agregar_cuenta_admin.php'">Cancelar</button>
+          <button type="submit">Registrar</button>
         </div>
+      </form>
     </div>
+  </div>
 </body>
 </html>

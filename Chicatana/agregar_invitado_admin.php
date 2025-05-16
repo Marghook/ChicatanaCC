@@ -14,12 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST"){
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $telefono = $_POST['telefono'];
-    $ciudad = $_POST['ciudad'];
-    $cp = $_POST['cp'];
-    $colonia = $_POST['colonia'];
-    $numero_casa = $_POST['numero_casa'];
     $correo = $_POST['correo'];
-    $rfc = $_POST['rfc'];
+    $fecha = $_POST['fecha'];
 }
 
 //consulta idsocio
@@ -38,15 +34,15 @@ $stmt2->store_result();
 $stmt2->bind_result($idsocio);
 $stmt2->fetch();
 
-$sql_familiar = "INSERT INTO familiar(idsocio,nombre,apellido,telefono,ciudad,codigo_postal,colonia,num_casa,correo,rfc) 
-VALUES(?,?,?,?,?,?,?,?,?,?)";
-$stmt3 = $conn->prepare($sql_familiar);
-$stmt3->bind_param("isssssssss",$idsocio,$nombre,$apellido,$telefono,$ciudad,$cp,$colonia,$numero_casa,$correo,$rfc);
+$sql_invitado = "INSERT INTO invitado(idsocio,nombre,apellido,telefono,correo,fecha) 
+VALUES(?,?,?,?,?,?)";
+$stmt3 = $conn->prepare($sql_invitado);
+$stmt3->bind_param("isssss",$idsocio,$nombre,$apellido,$telefono,$correo,$fecha);
 
 if($stmt3->execute()){
 
 echo "<script>alert('✅ Datos añadidos correctamente.');
-window.location.href = 'familiares_socios.php';</script>";
+window.location.href = 'invitados_socios.php';</script>";
 } else{
     echo "Error al guardar: ".
     $stmt3->error;

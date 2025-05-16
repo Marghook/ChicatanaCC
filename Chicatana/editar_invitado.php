@@ -1,9 +1,30 @@
 
+<?php
+session_start();
+require_once 'conexion.php';
+
+if(!isset($_SESSION['idusuario'])){
+  header("Location: login.html");
+  exit();
+}
+
+$idsocio = $_GET['idsocio'];
+
+$stmt = $conn->prepare("SELECT nombre,apellido,telefono,correo,fecha
+                        FROM invitado WHERE idsocio = ?");
+$stmt->bind_param("i",$idsocio);
+$stmt->execute();
+$stmt->store_result();
+$stmt->bind_result($nombre,$apellido,$telefono,$correo,$fecha);
+$stmt->fetch();
+$stmt->close();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Agregar Invitado</title>
+  <title>Información del Invitado</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     * {
@@ -122,6 +143,7 @@
     .botones button:hover {
       background-color: #0b1a38;
     }
+
     .logo {
       position: absolute;
       top: 20px;
@@ -134,38 +156,40 @@
 <body>
   <div class="container">
     <div class="sidebar">
-      <h2>MENU</h2>
-      <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="informacion_socio.php" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
-      <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
-      <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
-      <a href="cuenta.php" class="menu-btn"><i class="fas fa-money-bill"></i> CUENTA</a>
-      <a href="metodo_pago_form.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
-      <a href="generar_pagare.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> GENERAR PAGARÉ</a>
-      <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
+        <h2>MENU</h2>
+        <a href="Inicio_admin.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
+        <a href="socios.php" class="menu-btn"><i class="fas fa-user"></i> SOCIOS</a>
+        <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
+        <a href="invitados_socios.php" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
+        <a href="pagos_cuotas.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
+        <a href="pagares_generados.php" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
+        <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>
 
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
-      <form class="formulario" method="post" action="agregar_invitado.php">
-        <h3>Agregar Invitado</h3>
+      <form class="formulario" method="POST" action="actualizar_invitado.php">
+        <h3>Información del Invitado</h3>
+
+        <input type="hidden" id="idsocio" name="idsocio" value="<?= htmlspecialchars($idsocio)?>">
+
         <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <input type="text" id="nombre" name="nombre" value="<?= htmlspecialchars($nombre) ?>" required>
 
         <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" name="apellido" required>
+        <input type="text" id="apellido" name="apellido" value="<?= htmlspecialchars($apellido) ?>" required>
 
-        <label for="telefono">Número de Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" required>
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" value="<?= htmlspecialchars($telefono) ?>" required>
 
         <label for="correo">Correo</label>
-        <input type="email" id="correo" name="correo" required>
+        <input type="email" id="correo" name="correo" value="<?= htmlspecialchars($correo) ?>" required>
 
-        <label for="fecha">Fecha de visita</label>
-        <input type="date" id="fecha" name="fecha" required>
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" name="fecha" value="<?= htmlspecialchars($fecha) ?>" required>
 
         <div class="botones">
-          <button type="button" onclick="window.location.href='inicio.html'">Cancelar</button>
+          <button type="button" onclick="window.location.href='inicio_admin.html'">Cancelar</button>
           <button type="submit">Guardar</button>
         </div>
       </form>

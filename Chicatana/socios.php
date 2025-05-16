@@ -98,22 +98,34 @@ $result = $conn->query($sql);
     }
     table {
       width: 100%;
-      border-collapse: collapse;
       margin-top: 70px;
-      background-color: white;
-      color: black;
+      border-collapse: collapse;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.6);
     }
     
     th, td {
-      padding: 10px;
-      border: 1px solid #ccc;
+      padding: 12px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: left;
     }
     
     th {
-      background-color: #1d2e4a;
-      color: white;
+      background-color: rgba(29, 46, 74, 0.7);
+      font-weight: bold;
     }
-    
+    thead th {
+        background-color: rgba(29, 46, 74, 0.7);
+        font-weight: bold;
+    }
+    tbody tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+    tfoot td {
+        font-weight: bold;
+        text-align: right;
+        background-color: rgba(29, 46, 74, 0.7);
+    }
     td a {
       color: #007bff;
       text-decoration: none;
@@ -174,6 +186,7 @@ $result = $conn->query($sql);
       <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
       <a href="invitados_socios.php" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
       <a href="pagos_cuotas.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
+      <a href="agregar_cuenta_admin.php" class="menu-btn"><i class="fas fa-money-bill"></i>AGREGAR CUENTA</a>
       <a href="pagares_generados.php" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
       <a href="cerrar_sesion.php" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
     </div>

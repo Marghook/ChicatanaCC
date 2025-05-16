@@ -8,7 +8,7 @@ if (!isset($_SESSION['idusuario'])){
 }
 
 $sql_cuenta = "SELECT s.idsocio,
-    c.idcuenta, c.tipo_consumidor, c.idconsumidor, c.descripcion, c.fecha, c.pagado
+    c.idcuenta, c.descripcion, c.fecha, c.cantidad, c.pagado
 FROM socio s
 JOIN cuenta c ON s.idsocio = c.idsocio";
 
@@ -144,7 +144,7 @@ $result = $conn->query($sql_cuenta);
         margin-top: 70px;
         border-collapse: collapse;
         color: white;
-        background-color: rgba(0, 0, 0, 0.2); /* Fondo ligeramente más oscuro para la tabla */
+        background-color: rgba(0, 0, 0, 0.6); /* Fondo ligeramente más oscuro para la tabla */
     }
     .tabla-ejemplo th, .tabla-ejemplo td {
         padding: 12px 15px;
@@ -185,40 +185,39 @@ $result = $conn->query($sql_cuenta);
   <div class="container">
     <div class="sidebar">
       <h2>MENU</h2>
-      <a href="inicio.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
-      <a href="socios.html" class="menu-btn"><i class="fas fa-user"></i> SOCIOS</a>
-      <a href="familiares_socios.html" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
-      <a href="invitados_socios.html" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
-      <a href="pagos_cuotas.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
+      <a href="inicio_admin.html" class="menu-btn"><i class="fas fa-home"></i> INICIO</a>
+      <a href="socios.php" class="menu-btn"><i class="fas fa-user"></i> SOCIOS</a>
+      <a href="familiares_socios.php" class="menu-btn"><i class="fas fa-users"></i> FAMILIARES DE SOCIOS</a>
+      <a href="invitados_socios.php" class="menu-btn"><i class="fas fa-users"></i> INVITADOS DE SOCIOS</a>
+      <a href="pagos_cuotas.php" class="menu-btn"><i class="fas fa-credit-card"></i> PAGOS DE CUOTAS</a>
       <a href="agregar_cuenta_admin.php" class="menu-btn"><i class="fas fa-money-bill"></i>AGREGAR CUENTA</a>
-      <a href="pagares_generados.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
+      <a href="pagares_generados.php" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> PAGARÉS GENERADOS</a>
       <a href="login.html" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
       </div>
     <div class="contenido">
       <a href="crear_cuenta.php" class="boton_agregar">Agregar Cuenta</a>
+      <div class="tabla-placeholder-container">
       <table class="tabla-ejemplo">
         <thead>
           <tr>
             <th>IDsocio</th>
             <th>IDcuenta</th>
-            <th>Consumidor</th>
-            <th>IDconsumidor</th>
             <th>Descripción</th>
             <th>Monto</th>
             <th>Fecha</th>
             <th>Estado de pago</th>
-          <tr>
+            <th>Acciones</th>
+          </tr>
         </thead>
         <tbody>
           <?php while($row = $result->fetch_assoc()): ?>
           <tr>
             <td><?= $row['idsocio'] ?></td>
             <td><?= $row['idcuenta'] ?></td>
-            <td><?= $row['tipo_consumidor'] ?></td>
-            <td><?= $row['idconsumidor'] ?></td>
             <td><?= $row['descripcion'] ?></td>
+            <td><?= $row['cantidad'] ?></td>
             <td><?= $row['fecha'] ?></td>
-            <td><?= $row['pagada'] ? 'Sí' : 'No' ?></td>
+            <td><?= $row['pagado'] ? 'Sí' : 'No' ?></td>
             <td>
             <a href="editar_cuenta.php?idcuenta=<?= $row['idcuenta'] ?>">Editar</a> |
             <a href="eliminar_cuenta.php?idcuenta=<?= $row['idcuenta'] ?>" onclick="return confirm('¿Eliminar esta cuenta?')">Eliminar</a>
@@ -227,7 +226,7 @@ $result = $conn->query($sql_cuenta);
           <?php endwhile; ?>
         </tbody>
       </table>
-
+      </div>
     </div>
   </div>
 </body>

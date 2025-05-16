@@ -1,3 +1,15 @@
+<?php
+session_start();
+require_once 'conexion.php';
+
+if (!isset($_SESSION['idusuario'])) {
+    header("Location: login.html");
+    exit();
+}
+
+$idcuenta = $_GET['idcuenta'];
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -239,6 +251,7 @@
       <a href="informacion_socio.php" class="menu-btn"><i class="fas fa-user"></i> INFORMACIÓN DEL SOCIO</a>
       <a href="agregar_familiar.html" class="menu-btn"><i class="fas fa-user-plus"></i> AGREGAR FAMILIAR</a>
       <a href="agregar_invitado.html" class="menu-btn"><i class="fas fa-users"></i> AGREGAR INVITADO</a>
+      <a href="cuenta.php" class="menu-btn"><i class="fas fa-money-bill"></i> CUENTA</a>
       <a href="metodo_pago.html" class="menu-btn"><i class="fas fa-credit-card"></i> PAGAR CUOTA</a>
       <a href="generar_pagare.html" class="menu-btn"><i class="fas fa-file-invoice-dollar"></i> GENERAR PAGARÉ</a>
       <a href="login.html" class="menu-btn"><i class="fas fa-sign-out-alt"></i> CERRAR SESIÓN</a>
@@ -249,6 +262,7 @@
 
       <form class="pago-form" method="post" action="metodo_pago.php" onsubmit="mostrarModal(event) ">
         <h3>Método de Pago</h3>
+        <input type="hidden" id="idcuenta" name="idcuenta" value="<?=htmlspecialchars($idcuenta) ?>">
         <input type="text" name="nombre" placeholder="Nombre del Titular" required>
         <input type="text" name="numero_tarjeta" placeholder="Número de Tarjeta" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric">
         <input type="text" name="fecha_vencimiento" placeholder="mm/aa" required maxlength="5"
