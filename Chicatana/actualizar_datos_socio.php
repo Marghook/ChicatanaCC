@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
 session_start();
 require_once 'conexion.php';
 
@@ -17,27 +16,31 @@ if (!isset($_SESSION['idusuario'])) {
 $idusuario = $_SESSION['idusuario'];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Obtener datos del formulario
     $nombre   = $_POST['nombre'];
-    $correo   = $_POST['correo'];
     $apellido = $_POST['apellido'];
     $telefono = $_POST['telefono'];
     $ciudad   = $_POST['ciudad'];
-    $cp       = $_POST['cp'];
+    $cp       = intval($_POST['cp']);
     $colonia  = $_POST['colonia'];
     $num_casa = $_POST['numero_casa'];
+    $correo   = $_POST['correo'];
     $rfc      = $_POST['rfc'];
 
-    // Iniciar transacción
     $conn->begin_transaction();
 
     try {
-        // 1. Actualizar tabla usuario
+        // Actualizar usuario
         $sql_usuario = "UPDATE usuario SET nombre = ?, correo = ? WHERE idusuario = ?";
         $stmt1 = $conn->prepare($sql_usuario);
+        if (!$stmt1) {
+            throw new Exception("Error preparando stmt1: " . $conn->error);
+        }
         $stmt1->bind_param("ssi", $nombre, $correo, $idusuario);
         $stmt1->execute();
 
-        // 2. Insertar o actualizar socio
+        // Insertar o actualizar socio
         $sql_socio = "
             INSERT INTO socio (iduser, apellido, telefono, ciudad, codigo_postal, colonia, num_casa, rfc)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -51,13 +54,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 rfc = VALUES(rfc)
         ";
         $stmt2 = $conn->prepare($sql_socio);
-        $stmt2->bind_param("isssssss", $idusuario, $apellido, $telefono, $ciudad, $cp, $colonia, $num_casa, $rfc);
+        if (!$stmt2) {
+            throw new Exception("Error preparando stmt2: " . $conn->error);
+        }
+        $stmt2->bind_param("isssisss", $idusuario, $apellido, $telefono, $ciudad, $cp, $colonia, $num_casa, $rfc);
         $stmt2->execute();
 
-        // Confirmar la transacción
         $conn->commit();
-
-        // Actualizar el nombre en la sesión
         $_SESSION['nombre'] = $nombre;
 
         echo "<script>
@@ -68,11 +71,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     } catch (Exception $e) {
         $conn->rollback();
-        echo "<script>alert('❌ Error al actualizar los datos: " . $e->getMessage() . "'); window.history.back();</script>";
+        echo "<script>alert('❌ Error: " . $e->getMessage() . "'); window.history.back();</script>";
     }
 
     $stmt1->close();
     $stmt2->close();
-    $conn->close();
 }
+$conn->close();
 ?>

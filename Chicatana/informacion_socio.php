@@ -179,39 +179,41 @@ $stmt2->close();
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
       <form class="formulario" method="post" action="actualizar_datos_socio.php">
-        <h3>Información del Socio</h3>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" value="<?= htmlspecialchars($nombre) ?>" required>
+  <h3>Información del Socio</h3>
 
-        <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" value="<?= htmlspecialchars($apellido) ?>" required>
+  <label for="nombre">Nombre</label>
+  <input type="text" id="nombre" name="nombre" value="<?= htmlspecialchars($nombre) ?>" required>
 
-        <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" value="<?= htmlspecialchars($telefono) ?>" required>
+  <label for="apellido">Apellido</label>
+  <input type="text" id="apellido" name="apellido" value="<?= htmlspecialchars($apellido) ?>" required>
 
-        <label for="ciudad">Ciudad</label>
-        <input type="text" id="ciudad" value="<?= htmlspecialchars($ciudad) ?>" required>
+  <label for="telefono">Teléfono</label>
+  <input type="tel" id="telefono" name="telefono" value="<?= htmlspecialchars($telefono) ?>" required>
 
-        <label for="cp">C.P</label>
-        <input type="text" id="cp" value="<?= htmlspecialchars($cp) ?>" required>
+  <label for="ciudad">Ciudad</label>
+  <input type="text" id="ciudad" name="ciudad" value="<?= htmlspecialchars($ciudad) ?>" required>
 
-        <label for="colonia">Colonia</label>
-        <input type="text" id="colonia" value="<?= htmlspecialchars($colonia) ?>" required>
+  <label for="cp">C.P</label>
+  <input type="text" id="cp" name="cp" value="<?= htmlspecialchars($cp) ?>" required>
 
-        <label for="numero_casa">Número de Casa</label>
-        <input type="text" id="numero_casa" value="<?= htmlspecialchars($num_casa) ?>" required>
+  <label for="colonia">Colonia</label>
+  <input type="text" id="colonia" name="colonia" value="<?= htmlspecialchars($colonia) ?>" required>
 
-        <label for="correo">Correo</label>
-        <input type="email" id="correo" value="<?= htmlspecialchars($correo) ?>" required>
+  <label for="numero_casa">Número de Casa</label>
+  <input type="text" id="numero_casa" name="numero_casa" value="<?= htmlspecialchars($num_casa) ?>" required>
 
-        <label for="rfc">RFC</label>
-        <input type="text" id="rfc" value="<?= htmlspecialchars($rfc) ?>" required>
+  <label for="correo">Correo</label>
+  <input type="email" id="correo" name="correo" value="<?= htmlspecialchars($correo) ?>" required>
 
-        <div class="botones">
-          <button type="button" onclick="window.location.href='inicio.html'">Cancelar</button>
-          <button type="submit">Guardar</button>
-        </div>
-      </form>
+  <label for="rfc">RFC</label>
+  <input type="text" id="rfc" name="rfc" value="<?= htmlspecialchars($rfc) ?>" required>
+
+  <div class="botones">
+    <button type="button" onclick="window.location.href='inicio.html'">Cancelar</button>
+    <button type="submit">Guardar</button>
+  </div>
+</form>
+
     </div>
   </div>
 </body>
