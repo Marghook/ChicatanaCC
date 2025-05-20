@@ -205,21 +205,28 @@
 
     <div class="contenido">
       <img src="logo.png" alt="Logo Chicatana" class="logo">
+      <form id="formPagare" action="insertar_pagare.php" method="POST">
       <div class="pagare-container" id="pagare">
         <div class="titulo-bloque">PAGARE</div>
         <div class="fila">
-          <div class="campo">N:<input type="text" /></div>
-          <div class="campo">DE:<input type="text" /></div>
+          <div class="campo">N: <span id="folioPagare"></span>
+            <input type="hidden" name="idpagare" id="idpagare"/>
+          </div>          
+          <div class="campo">DE:<input type="text" name="de"/></div>
         </div>
         <div class="fila">
           <div class="campo">LUGAR:<input type="text" /></div>
-          <div class="campo">FECHA:<input type="text" /></div>
+          <div class="campo">FECHA:<input type="date" name="fecha_deuda" /></div>
         </div>
-        <p>DEBO Y PAGARÉ INCONDICIONALMENTE ESTE PAGARÉ A LA ORDEN DE: <input type="text" /></p>
+        <p>
+          DEBO Y PAGARÉ INCONDICIONALMENTE ESTE PAGARÉ A LA ORDEN DE: 
+          <input type="text" style="border: 1px solid black; padding: 2px 4px; font-size: 16px; width: 300px;" />
+        </p>        
         <div class="fila">
           <div class="campo">EN LA FECHA:<input type="text" /></div>
-          <div class="campo">EN LA CANTIDAD DE:<input type="text" /></div>
+          <div class="campo">EN LA CANTIDAD DE:<input type="text" name="cantidad"/></div>
           <div class="campo">MONEDA: PESOS</div>
+          <div class="campo">NÚMERO DE PAGOS:<input type="number" name="pagos" min="1" /></div>
         </div>
         <div style="height: 40px; background-color: #a88d8c; margin: 20px 0;"></div>
         <p>EN DADO CASO DE NO CUMPLIR CON EL PAGO EN LA FECHA ACORDADA, SE GENERARÁ UN INTERÉS POR DEMORA DEL 5%</p>
@@ -232,49 +239,72 @@
           <p class="subrayado">FIRMA</p>
         </div>
       </div>
+      </form>
 
       <div class="btn-container">
-        <button onclick="guardarComoImagen()">Guardar como PDF</button>
-      </div>
+        <button type="button" onclick="validarYGuardar()">Guardar como PDF</button>
+      </div>      
     </div>
   </div>
-
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+    // FUNCION QUE GENERA EL PDF
     async function guardarComoImagen() {
       const { jsPDF } = window.jspdf;
       const element = document.getElementById("pagare");
-
-      // Capturar el contenido como imagen con mayor resolución
+  
       const canvas = await html2canvas(element, { scale: 2 });
       const imgData = canvas.toDataURL("image/png");
-
-      // Crear PDF en tamaño A4 y orientación vertical
+  
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "mm",
         format: "a4"
       });
-
+  
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-
+  
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
-
-      // Escalar imagen para que quepa en la hoja A4
+  
       const ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
       const imgScaledWidth = imgWidth * ratio;
       const imgScaledHeight = imgHeight * ratio;
-
+  
       const x = (pageWidth - imgScaledWidth) / 2;
       const y = (pageHeight - imgScaledHeight) / 2;
-
+  
       pdf.addImage(imgData, "PNG", x, y, imgScaledWidth, imgScaledHeight);
       pdf.save("pagare.pdf");
     }
-  </script>
+  
+    // NUEVA FUNCION PARA VALIDAR E INSERTAR LOS DATOS ANTES DEL PDF
+    async function validarYGuardar() {
+      const form = document.getElementById("formPagare");
+      const formData = new FormData(form);
+  
+      try {
+        const response = await fetch('insertar_pagare.php', {
+          method: 'POST',
+          body: formData
+        });
+  
+        const result = await response.json();
 
+        if (result.success) {
+          document.getElementById('idpagare').value = result.idpagare;
+          document.getElementById('folioPagare').textContent = result.idpagare; // Actualizar folio visible
+          guardarComoImagen(); // Generar PDF
+        } else {
+          alert("Error al insertar el pagaré: " + result.message);
+        }
+      } catch (error) {
+        alert("Error al conectar con el servidor.");
+        console.error(error);
+      }
+    }
+  </script>  
 </body>
 </html>

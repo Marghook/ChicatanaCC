@@ -7,12 +7,22 @@ if (!isset($_SESSION['idusuario'])) {
     exit();
 }
 
-$sql_cuenta = "SELECT s.idsocio,
-    c.idcuenta, c.descripcion, c.fecha, c.cantidad, c.pagado
-FROM socio s
-JOIN cuenta c ON s.idsocio = c.idsocio";
+$idusuario = $_SESSION['idusuario'];
 
-$result = $conn->query($sql_cuenta);
+$sql_cuenta = "SELECT s.idsocio,
+c.idcuenta,
+c.descripcion,
+c.fecha,
+c.cantidad,
+c.pagado
+FROM socio s
+JOIN cuenta c ON s.idsocio = c.idsocio
+WHERE s.iduser = ?";
+$result = $conn->prepare($sql_cuenta);
+$result->bind_param("i",$idusuario);
+$result->execute();
+$result->bind_result($idsocio,$idcuenta,$desc,$fecha,$cantidad,$pagado);
+
 ?>
 
 <!DOCTYPE html>
@@ -244,22 +254,22 @@ $result = $conn->query($sql_cuenta);
             <tr>
           </thead>
           <tbody>
-          <?php while($row = $result->fetch_assoc()): ?>
+          <?php while($result->fetch()): ?>
             <tr>
-              <td><?= $row['idsocio'] ?></td>
-              <td><?= $row['idcuenta'] ?></td>
-              <td><?= $row['descripcion'] ?></td>
-              <td><?= $row['fecha'] ?></td>
-              <td><?= $row['cantidad'] ?></td>
-              <td><?= $row['pagado'] ? 'Sí' : 'No' ?></td>
+              <td><?= $idsocio ?></td>
+              <td><?= $idcuenta ?></td>
+              <td><?= $desc ?></td>
+              <td><?= $fecha ?></td>
+              <td><?= $cantidad ?></td>
+              <td><?= $pagado ? 'Sí' : 'No' ?></td>
               <td>
-                <?php if (!$row['pagado']): ?>
-                  <a href="metodo_pago_form.php?idcuenta=<?= $row['idcuenta'] ?>" class="btn-pagar">
-                    <i class="fas fa-credit-card"></i> PAGAR
-                  </a>
-                  <?php else: ?>
-                  <span style="color: gray;">Pagado</span>
-                  <?php endif; ?>
+                <?php if (!$pagado): ?>
+                <a href="metodo_pago_form.php?idcuenta=<?= $idcuenta ?>" class="btn-pagar">
+                  <i class="fas fa-credit-card"></i> PAGAR
+                </a>
+                <?php else: ?>
+                <span style="color: gray;">Pagado</span>
+                <?php endif; ?>
               </td>
             </tr>
             <?php endwhile; ?>
